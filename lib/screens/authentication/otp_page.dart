@@ -275,7 +275,8 @@ class _OtpPageState extends State<OtpPage> {
                 ],
               ),
               const SizedBox(height: 28),
-              LoadingButton(color: Colors.blueGrey.shade900,
+              LoadingButton(
+                color: Colors.blueGrey.shade900,
                 text: 'Verify',
                 onPressed: () {
                   Navigator.pushReplacement(

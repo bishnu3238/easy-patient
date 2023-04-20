@@ -38,6 +38,7 @@ class _VideoCallingState extends State<VideoCalling> {
     super.initState();
     initRenderers();
     _connect();
+    _endCall();
   }
 
   Future<void> initRenderers() async {
@@ -152,9 +153,19 @@ class _VideoCallingState extends State<VideoCalling> {
       // make a call to remote peer over signalling
       socket!.emit('makeCall', {
         "calleeId": widget.calleeId,
+        "calleeName": "Nandu",
+        "calleeType": "patient",
         "sdpOffer": offer.toMap(),
       });
     }
+  }
+
+  void _endCall() {
+    socket!.on("callEnded", (data) {
+      _localStream!.getTracks().forEach((track) => track.stop());
+      socket!.emit('endCall');
+      Navigator.pop(context);
+    });
   }
 
   @override
@@ -171,23 +182,29 @@ class _VideoCallingState extends State<VideoCalling> {
     _remoteRTCVideoRenderer.dispose();
     _localStream?.dispose();
     _rtcPeerConnection?.dispose();
-    // localRenderer.dispose();
-    // localRenderer.srcObject = null;
     _localStream?.getTracks().forEach((track) => track.stop());
   }
 
   _leaveCall() {
+    _localStream!.getTracks().forEach((track) => track.stop());
+    socket!.emit('endCall');
     Navigator.pop(context);
   }
 
   _toggleMic() {
-    // change status
-    isAudioOn = !isAudioOn;
-    // enable or disable audio track
-    _localStream?.getAudioTracks().forEach((track) {
-      track.enabled = isAudioOn;
-    });
-    setState(() {});
+
+    if (_localStream != null) {
+      // change status
+
+      isAudioOn = !isAudioOn;
+      // enable or disable audio track
+      _localStream?.getAudioTracks().forEach((track) {
+        track.enabled = isAudioOn;
+      });
+      setState(() {});
+    }
+
+
   }
 
   _toggleCamera() {
@@ -222,7 +239,7 @@ class _VideoCallingState extends State<VideoCalling> {
           RTCVideoView(
             _remoteRTCVideoRenderer,
             objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-            filterQuality: FilterQuality.high,
+            // filterQuality: FilterQuality.high,
           ),
           Positioned(
             right: 20,
@@ -234,7 +251,7 @@ class _VideoCallingState extends State<VideoCalling> {
                 _localRTCVideoRenderer,
                 mirror: true,
                 objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                filterQuality: FilterQuality.high,
+                // filterQuality: FilterQuality.high,
               ),
             ),
           ),

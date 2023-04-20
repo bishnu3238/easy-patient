@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData prefixIcon;
+  final VoidCallback? onTap;
   final FormFieldValidator<String>? validator;
   final Function(String)? onChanged;
   final bool obscureText;
+  final bool readOnly;
 
   const CustomTextField({
     super.key,
@@ -14,17 +16,21 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.obscureText = false,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obscureText,
+      onTap: onTap,
+      readOnly: readOnly,
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
         hintText: hintText,
-        prefixIcon: Icon(prefixIcon,color: Colors.blueGrey.shade800),
+        prefixIcon: Icon(prefixIcon, color: Colors.blueGrey.shade800),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

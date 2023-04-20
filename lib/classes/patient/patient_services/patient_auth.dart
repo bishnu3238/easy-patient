@@ -8,9 +8,14 @@ class PatientAuth {
     String api = Api.loginApi;
     final response = await http.post(
       Uri.parse(api),
-      body: <String, String>{'username': username, 'password': password},
+      body: jsonEncode(
+        {
+          'username': username,
+          'password': password,
+        },
+      ),
       headers: <String, String>{
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     );
 

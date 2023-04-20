@@ -35,7 +35,7 @@ class Session {
   String sid;
   RTCPeerConnection? pc;
   RTCDataChannel? dc;
-  List<RTCIceCandidate> remoteCandidates = [];
+  List<RTCIceCandidate> remoteCandidates = [];     
 }
 
 class Signaling {

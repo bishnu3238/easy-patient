@@ -35,7 +35,8 @@ class _CustomSliverAppBarState extends State<CustomSliverAppBar> {
         leadingIcon: widget.leadingIcon,
         title: widget.title,
         actions: widget.actions,
-        bottom: widget.bottom ?? null,
+        bottom: widget.bottom,
+        context: context,
       ),
     );
   }
@@ -47,13 +48,15 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final List<Widget> actions;
   final Widget? bottom;
   final FlexibleSpaceBar? flexibleSpaceBar;
+  final BuildContext context;
 
   _SliverAppBarDelegate(
       {required this.leadingIcon,
       required this.title,
       required this.actions,
       this.bottom,
-      this.flexibleSpaceBar});
+      this.flexibleSpaceBar,
+      required this.context});
 
   @override
   Widget build(
@@ -63,16 +66,18 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       leading: leadingIcon,
       title: overlapsContent ? bottom : title,
       actions: actions,
+      // bottom: (bottom as PreferredSizeWidget),
       flexibleSpace: flexibleSpaceBar,
     );
   }
 
   @override
   double get maxExtent =>
-      kToolbarHeight + (bottom as PreferredSizeWidget).preferredSize.height;
+      (kToolbarHeight * 1) + MediaQuery.of(context).padding.top;
+  // (bottom as PreferredSizeWidget).preferredSize.height;
 
   @override
-  double get minExtent => kToolbarHeight + 25;
+  double get minExtent => kToolbarHeight + MediaQuery.of(context).padding.top;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

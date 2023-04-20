@@ -17,6 +17,7 @@ class Patient {
   final int? referId;
   final int? status;
   final DateTime? registrationDate;
+  bool patientLogin;
 
   Patient({
     required this.id,
@@ -33,6 +34,7 @@ class Patient {
     this.referId,
     this.status,
     this.registrationDate,
+    this.patientLogin = false
   });
 
   Map<String, dynamic> toJson() {

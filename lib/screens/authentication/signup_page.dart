@@ -17,11 +17,12 @@ class SignupPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-            onPressed: () => Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (ctx) => const LoginPage())),
-            icon: const FaIcon(
-              FontAwesomeIcons.arrowLeft,
-            )),
+          onPressed: () => Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (ctx) => const LoginPage())),
+          icon: const FaIcon(
+            FontAwesomeIcons.arrowLeft,
+          ),
+        ),
         backgroundColor: Colors.white,
         title: const Text(
           "Sign Up",
@@ -61,7 +62,6 @@ class SignupPage extends StatelessWidget {
                   hintText: 'Email Id',
                   prefixIcon: Icons.person,
                 ),
-
                 const SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2),
